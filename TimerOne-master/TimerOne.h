@@ -220,15 +220,13 @@ class TimerOne
     }
     void stop() __attribute__((always_inline)) {
 	TCCR1B = _BV(WGM13);
-    //TCCR1B = _BV(WGM13) | _BV(WGM12);
     }
     void restart() __attribute__((always_inline)) {
 	start();
     }
     void resume() __attribute__((always_inline)) {
 	TCCR1B = _BV(WGM13) | clockSelectBits;
-	//TCCR1B = _BV(WGM13) | _BV(WGM12) | clockSelectBits;
-    }
+	}
 
     //****************************
     //  PWM outputs
@@ -240,15 +238,13 @@ class TimerOne
 
     void attachInterrupt(void (*isr)()) __attribute__((always_inline)) {
 	isrCallback = isr;
-	//TIMSK1 = _BV(TOIE1);
-    TIMSK |= _BV(TOIE1);
+	TIMSK |= _BV(TOIE1);
     }
     void attachInterrupt(void (*isr)(), unsigned long microseconds) __attribute__((always_inline)) {
 	if(microseconds > 0) setPeriod(microseconds);
 	attachInterrupt(isr);
     }
     void detachInterrupt() __attribute__((always_inline)) {
-	//TIMSK1 = 0;
 	TIMSK &= ~(_BV(TOIE1));
     }
     static void (*isrCallback)();
